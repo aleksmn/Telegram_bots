@@ -13,8 +13,9 @@ def handle_start(message):
 
 
 @bot.message_handler(func=lambda message: True)
-def echo_message(message):
-    bot.reply_to(message, message.text)
+def handle_all(message):
+    bot.send_message(message.chat.id, message.text)
+
 
 if __name__ == "__main__":
     bot.polling(non_stop=True)
