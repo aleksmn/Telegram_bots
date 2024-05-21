@@ -12,6 +12,12 @@ def handle_start(message):
     bot.send_message(message.chat.id, "Привет! Это бот для изучения английского языка")
 
 
+
+@bot.message_handler(commands=['learn'])
+def handle_learn(message):
+    bot.send_message(message.chat.id, "Обучение сейчас начнется!")
+
+
 @bot.message_handler(func=lambda message: True)
 def handle_all(message):
     if message.text.lower() == "как тебя зовут?":
