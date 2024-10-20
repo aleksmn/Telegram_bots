@@ -40,7 +40,7 @@ def handle_addword(message):
             json.dump(user_data, file, ensure_ascii=False, indent=4)
         bot.send_message(chat_id, "Слово добавлено")
     else:
-        bot.send_message(chat_id, "Произошла ошибка. Попробуйте снова")
+        bot.send_message(chat_id, "Произошла ошибка. Попробуйте снова. Пример команды: /addword apple яблоко")
 
 
 @bot.message_handler(func=lambda message: True)
