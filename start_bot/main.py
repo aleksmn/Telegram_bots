@@ -1,6 +1,10 @@
 import telebot
 from config import api_token
 
+
+# pip install pyTelegramBotAPI
+
+
 TOKEN = api_token
 
 bot = telebot.TeleBot(TOKEN)
