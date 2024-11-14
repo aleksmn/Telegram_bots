@@ -60,7 +60,7 @@ addword - Добавить слово
 
 if __name__ == "__main__":
 
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     logging.info("Начинаем работу бота...")
 
     bot.polling(non_stop=True, logger_level=logging.INFO)
