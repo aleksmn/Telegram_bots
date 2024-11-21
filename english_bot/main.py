@@ -2,12 +2,19 @@ import telebot
 from config import api_token
 import logging
 import json
+import random
 
 TOKEN = api_token
 
 bot = telebot.TeleBot(TOKEN)
 
 user_data = {}
+try:
+    with open("user_data.json", "r", encoding="utf-8") as file:
+        user_data = json.load(file)
+except FileNotFoundError:
+    pass
+
 
 
 @bot.message_handler(commands=['help', 'start'])
@@ -18,7 +25,39 @@ def handle_start(message):
 
 @bot.message_handler(commands=['learn'])
 def handle_learn(message):
-    bot.send_message(message.chat.id, "Обучение сейчас начнется!")
+
+
+    user_words = user_data.get(str(message.chat.id), {})
+
+    # Проверяем, есть ли у пользователя слова
+    if not user_words:
+        bot.send_message(message.chat.id, "Твой словарь пуст!")
+        return
+
+    ask_translation(message.chat.id, user_words)
+
+
+
+
+def ask_translation(chat_id, user_words):
+
+    word = random.choice(list(user_words.keys()))
+    translation = user_words[word]
+    bot.send_message(chat_id, f"Напиши перевод слова '{word}'.")
+
+    bot.register_next_step_handler_by_chat_id(chat_id, check_translation, translation)
+
+
+def check_translation(message, translation):
+    logging.debug("check_translation")
+    logging.debug(f"{message}, {translation}")
+    user_translation = message.text.strip().lower()
+    # сравниваем перевод пользователя и translation
+    if user_translation == translation.lower():
+        bot.send_message(message.chat.id, "Правильно! Молодец!")
+    else:
+        bot.send_message(message.chat.id, f"Неправильно. Правильный перевод: {translation}")
+
 
 
 @bot.message_handler(commands=['addword']) # /addword apple яблоко
@@ -26,7 +65,7 @@ def handle_addword(message):
     global user_data
     logging.info(f"Сообщение {message.text}")
     # bot.send_message(message.chat.id, "Добавляем новое слово")
-    chat_id = message.chat.id
+    chat_id = str(message.chat.id)
     user_dict = user_data.get(chat_id, {})
 
     words = message.text.split()[1:]
