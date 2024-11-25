@@ -31,11 +31,16 @@ def handle_learn(message):
     if not user_words:
         bot.send_message(message.chat.id, "Твой словарь пуст!")
         return
+    
 
-    words_number = int(message.text.split()[1])
 
-    ask_translation(message.chat.id, user_words, words_number)
-
+    try:
+        # тернарный оператор
+        words_number = int(message.text.split()[1]) if len(message.text.split()) > 1 else 1
+        
+        ask_translation(message.chat.id, user_words, words_number)
+    except ValueError:
+        bot.send_message(message.chat.id, "Используй команду /learn <количество> для изучения слов.")
 
 
 
