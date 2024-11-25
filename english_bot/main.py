@@ -8,13 +8,11 @@ TOKEN = api_token
 
 bot = telebot.TeleBot(TOKEN)
 
-user_data = {}
 try:
     with open("user_data.json", "r", encoding="utf-8") as file:
         user_data = json.load(file)
 except FileNotFoundError:
-    pass
-
+    user_data = {}
 
 
 @bot.message_handler(commands=['help', 'start'])
@@ -25,7 +23,7 @@ def handle_start(message):
 
 @bot.message_handler(commands=['learn'])
 def handle_learn(message):
-
+    logging.debug(f"handle_learn: {message}")
 
     user_words = user_data.get(str(message.chat.id), {})
 
@@ -34,21 +32,28 @@ def handle_learn(message):
         bot.send_message(message.chat.id, "Твой словарь пуст!")
         return
 
-    ask_translation(message.chat.id, user_words)
+    words_number = int(message.text.split()[1])
+
+    ask_translation(message.chat.id, user_words, words_number)
 
 
 
 
-def ask_translation(chat_id, user_words):
+def ask_translation(chat_id, user_words, words_number):
 
-    word = random.choice(list(user_words.keys()))
-    translation = user_words[word]
-    bot.send_message(chat_id, f"Напиши перевод слова '{word}'.")
+    if words_number > 0:
 
-    bot.register_next_step_handler_by_chat_id(chat_id, check_translation, translation)
+        word = random.choice(list(user_words.keys()))
+        translation = user_words[word]
+        bot.send_message(chat_id, f"Напиши перевод слова '{word}'.")
+
+        bot.register_next_step_handler_by_chat_id(chat_id, check_translation, translation, words_number)
+
+    else:
+        bot.send_message(chat_id, "Урок закончен")
 
 
-def check_translation(message, translation):
+def check_translation(message, translation, words_number):
     logging.debug("check_translation")
     logging.debug(f"{message}, {translation}")
     user_translation = message.text.strip().lower()
@@ -57,6 +62,8 @@ def check_translation(message, translation):
         bot.send_message(message.chat.id, "Правильно! Молодец!")
     else:
         bot.send_message(message.chat.id, f"Неправильно. Правильный перевод: {translation}")
+
+    ask_translation(message.chat.id, user_data[str(message.chat.id)], words_number - 1)
 
 
 
