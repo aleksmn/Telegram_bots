@@ -23,7 +23,7 @@ def handle_start(message):
 
 @bot.message_handler(commands=['learn'])
 def handle_learn(message):
-    logging.debug(f"handle_learn: {message}")
+    logging.debug(f"handle_learn")
 
     user_words = user_data.get(str(message.chat.id), {})
 
@@ -113,6 +113,9 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.DEBUG)
     logging.info("Начинаем работу бота...")
-
-    bot.polling(non_stop=True, logger_level=logging.INFO)
-    
+    while True:
+        try:
+            bot.polling(non_stop=True)
+        except Exception as e:
+            print(f"Error: {e}")
+            time.sleep(5) 
