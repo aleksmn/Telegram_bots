@@ -1,5 +1,6 @@
 import telebot
 import json
+import logging
 
 from config import api_token
 
@@ -33,4 +34,7 @@ def add_appointment(date, time, client):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    logging.info("Начинаем работу бота...")
+    
     bot.polling(none_stop=True)

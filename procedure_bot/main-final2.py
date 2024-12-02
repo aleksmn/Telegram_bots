@@ -4,8 +4,11 @@ import telebot
 from telebot import types
 import json
 from datetime import date, timedelta
+import logging
 
-TOKEN = ""
+from config import api_token
+
+TOKEN = api_token
 bot = telebot.TeleBot(TOKEN)
 
 
@@ -157,4 +160,8 @@ def save_client(message):
 
 # Запуск бота
 if __name__ == "__main__":
+
+    logging.basicConfig(level=logging.INFO)
+    logging.info("Начинаем работу бота...")
+    
     bot.polling(none_stop=True)
