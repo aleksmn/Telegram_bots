@@ -39,7 +39,7 @@ def generate_date_schedule():
     # Создаем кнопки и добавляем их на клавиатуру
     for button_text in days:
         callback_data = f"day:{button_text}"
-        button = types.InlineKeyboardButton(text=button_text, callback_data=callback_data)
+        button = types.InlineKeyboardButton(text=f"{button_text}", callback_data=callback_data)
         keyboard.add(button)
 
     return keyboard
