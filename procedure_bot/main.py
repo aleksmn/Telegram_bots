@@ -43,6 +43,13 @@ def generate_date_schedule():
     return keyboard
 
 
+# Обработчик нажатий на кнопки
+@bot.callback_query_handler(func=lambda call: True)
+def handle_callback_query(call):
+    if call.data.startswith("day:"):
+        chosen_date = call.data.split(":")[1]
+        bot.send_message(call.message.chat.id, f"Вы выбрали дату: {chosen_date}")
+
 def add_appointment(date, time, client):
     # Чтение существующих данных из файла
     try:
