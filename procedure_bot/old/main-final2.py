@@ -38,7 +38,7 @@ def generate_date_schedule():
 
     # Создаем кнопки и добавляем их на клавиатуру
     for button_text in days:
-        callback_data = f"day:{button_text}"
+        callback_data = f"day : {button_text}"
         button = types.InlineKeyboardButton(text=f"{button_text}", callback_data=callback_data)
         keyboard.add(button)
 
@@ -60,7 +60,7 @@ def generate_time_keyboard(chosen_date):
 
     # Создаем кнопки и добавляем их на клавиатуру
     for time in times:
-        callback_data = f"appointment:{chosen_date}:{time}"
+        callback_data = f"appointment : {chosen_date} : {time}"
         button = types.InlineKeyboardButton(text=time, callback_data=callback_data)
         keyboard.add(button)
 
@@ -70,14 +70,14 @@ def generate_time_keyboard(chosen_date):
 # Обработчик нажатий на кнопки
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback_query(call):
-    if call.data.startswith("day:"):
-        chosen_date = call.data.split(":")[1]
+    if call.data.startswith("day"):
+        chosen_date = call.data.split(" : ")[1]
         bot.send_message(call.message.chat.id, f"Вы выбрали дату: {chosen_date}")
         # Отправляем клавиатуру с доступным временем для выбранной даты
         bot.send_message(call.message.chat.id, "Выберите время:", reply_markup=generate_time_keyboard(chosen_date))
 
-    elif call.data.startswith("appointment:"):
-        chosen_date, chosen_time = call.data.split(":")[1], call.data.split(":")[2]
+    elif call.data.startswith("appointment"):
+        chosen_date, chosen_time = call.data.split(" : ")[1], call.data.split(" : ")[2]
         add_appointment(chosen_date, chosen_time, call.message.chat.id)
         bot.send_message(call.message.chat.id, f"Вы записаны на {chosen_date} в {chosen_time}. Ждём вас!")
 
@@ -92,7 +92,7 @@ def add_appointment(date, time, client):
 
     # Добавление новой записи
     # new_appointment = {'date': date, 'time': time, 'client': client}
-    new_appointment = {'date': date.isoformat(), 'time': time, 'client': client}
+    new_appointment = {'date': date, 'time': time, 'client': client}
     data['appointments'].append(new_appointment)
 
     # Запись обновленных данных в файл

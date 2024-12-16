@@ -15,6 +15,23 @@ def handle_start(message):
 
 
 
+
+@bot.message_handler(commands=["addword"])  # /addword apple яблоко
+def handle_addword(message):
+
+    words = message.text.split()[1:]
+    
+    word, translation = words[0].lower(), words[1].lower()
+
+
+
+
+
+
+
+
+
+
 # Всегда последнее
 @bot.message_handler(func=lambda message: True)
 def handle_questions(message):
