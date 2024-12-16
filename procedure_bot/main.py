@@ -52,7 +52,7 @@ def generate_time_keyboard(chosen_date):
     # Получаем кнопки для указанной даты и времени
     times = ["10:00", "12:00", "15:00", "17:00"]
 
-    with open("data.json", "r") as f:
+    with open("data.json", "r", encoding="utf-8") as f:
         f = json.load(f)
         for appointment in f["appointments"]:
             print(appointment)
