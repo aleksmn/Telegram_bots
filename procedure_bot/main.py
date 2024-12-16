@@ -92,7 +92,6 @@ def add_appointment(date, time, client):
         data = {"appointments": [], "review": []}
 
     # Добавление новой записи
-    # new_appointment = {'date': date, 'time': time, 'client': client}
     new_appointment = {'date': date, 'time': time, 'client': client}
     data['appointments'].append(new_appointment)
 
