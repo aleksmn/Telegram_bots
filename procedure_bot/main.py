@@ -55,8 +55,10 @@ def generate_time_keyboard(chosen_date):
     with open("data.json", "r") as f:
         f = json.load(f)
         for appointment in f["appointments"]:
-            if appointment["date"] == date:
+            print(appointment)
+            if appointment["date"] == chosen_date:
                 times.remove(appointment["time"])
+                
 
     # Создаем кнопки и добавляем их на клавиатуру
     for time in times:
@@ -97,7 +99,7 @@ def add_appointment(date, time, client):
 
     # Запись обновленных данных в файл
     with open('data.json', 'w', encoding='utf-8') as file:
-        json.dump(data, file, ensure_ascii=False)
+        json.dump(data, file, ensure_ascii=False, indent=4)
 
 
 # Обработчик команды /add_review
@@ -132,7 +134,7 @@ def add_review(client, text):
 
     # Сохранение обновленных данных в файл
     with open("data.json", "w", encoding="utf-8") as file:
-        json.dump(data, file, ensure_ascii=False)
+        json.dump(data, file, ensure_ascii=False, indent=4)
 
 
 @bot.message_handler(commands=['set_name'])
@@ -153,7 +155,7 @@ def save_client(message):
 
     # Запись обновленных данных в файл
     with open('data.json', 'w', encoding='utf-8') as file:
-        json.dump(data, file, ensure_ascii=False)
+        json.dump(data, file, ensure_ascii=False, indent=4)
 
     bot.send_message(message.chat.id, "Ваше имя сохранено")
 
