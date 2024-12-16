@@ -55,7 +55,6 @@ def generate_time_keyboard(chosen_date):
     with open("data.json", "r", encoding="utf-8") as f:
         f = json.load(f)
         for appointment in f["appointments"]:
-            print(appointment)
             if appointment["date"] == chosen_date:
                 times.remove(appointment["time"])
                 
