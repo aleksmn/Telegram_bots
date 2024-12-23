@@ -122,7 +122,7 @@ def add_review(client, text):
             data = json.load(file)
     except FileNotFoundError:
         # Если файла нет, создаем пустую структуру
-        data = {"appointments": [], "review": []}
+        data = {"appointments": [], "review": [], "clients": {}}
 
     # Добавление нового отзыва в список отзывов
     data["review"].append({
