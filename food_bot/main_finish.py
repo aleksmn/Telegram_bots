@@ -1,12 +1,13 @@
 import json
-
+import logging
 import telebot
 from telebot import types
 
-# Токен бота
-TOKEN = "..."
-bot = telebot.TeleBot(TOKEN)
+from config import api_token
 
+# Токен бота
+TOKEN = api_token
+bot = telebot.TeleBot(TOKEN)
 
 
 # Данные о меню
@@ -123,6 +124,7 @@ def echo_all(message):
                          reply_markup=selection())
 
 
+
 def create_order(message):
     if message.content_type == 'text':
         address = message.text
@@ -139,6 +141,7 @@ def create_order(message):
     bot.send_message(message.chat.id, f"Стоимость заказа: {cost}")
     bot.send_message(message.chat.id, "Доступна только оплата наличными курьеру")
     bot.send_message(message.chat.id, "Заказ принят в работу🚀", reply_markup=selection())
+
 
 
 def calculate_cart_total(client_id):
@@ -163,6 +166,7 @@ def calculate_cart_total(client_id):
     return total_price
 
 
+
 def get_cart(client_id):
     with open("data.json", 'r', encoding="utf-8") as file:
         data = json.load(file)
@@ -173,6 +177,7 @@ def get_cart(client_id):
             return client.get("cart", [])
 
     return None  # Возвращаем None, если клиент с указанным ID не найден
+
 
 
 def add_to_cart(client_id, item):
@@ -192,5 +197,11 @@ def add_to_cart(client_id, item):
         json.dump(data, file, ensure_ascii=False)
 
 
-# Запускаем бота
-bot.polling(none_stop=True)
+
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    logging.info("Начинаем работу бота...")
+    # Запускаем бота
+    bot.polling(none_stop=True)
