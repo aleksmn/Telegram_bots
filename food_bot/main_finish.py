@@ -192,6 +192,7 @@ def add_to_cart(client_id, item):
             for cart_item in client["cart"]:
                 if cart_item[0] == item:
                     cart_item[1] += 1
+                    break
             else:
                 client["cart"].append([item, 1])
 
