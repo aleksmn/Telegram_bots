@@ -189,7 +189,7 @@ def add_to_cart(client_id, item):
     for client in clients:
         if client.get("id") == str(client_id):
             # перебираем товары в корзине
-            for cart_item in client["card"]:
+            for cart_item in client["cart"]:
                 if cart_item[0] == item:
                     cart_item[1] += 1
             else:
