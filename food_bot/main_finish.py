@@ -92,6 +92,7 @@ def echo_all(message):
         items_in_cart = get_cart(message.chat.id)
 
         markup = types.InlineKeyboardMarkup()
+        
         for item in items_in_cart:
             minus_button = types.InlineKeyboardButton("-", callback_data=f"minus_{item}")
             name_button = types.InlineKeyboardButton(f"{item[0]} x{item[1]}", callback_data=f"name_{item}")
@@ -187,9 +188,11 @@ def add_to_cart(client_id, item):
     clients = data.get("clients", [])
     for client in clients:
         if client.get("id") == str(client_id):
-            for cart_item in client["id"]:
+            # перебираем товары в корзине
+            for cart_item in client["cart"]:
                 if cart_item[0] == item:
                     cart_item[1] += 1
+                    break
             else:
                 client["cart"].append([item, 1])
 
