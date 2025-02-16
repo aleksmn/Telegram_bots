@@ -99,9 +99,10 @@ def handle_addword(message):
 def handle_all(message):
     if message.text.lower() == "как тебя зовут?":
         bot.send_message(message.chat.id, "У меня пока нет имени")
-    elif message.text.lower() == "как тебя зовут?":
+    elif message.text.lower() == "что ты умеешь делать?":
         bot.send_message(message.chat.id, "Я бот для изучения английского языка")
-
+    else:
+        bot.send_message(message.chat.id, "Не понял вас")
 
 
 """
