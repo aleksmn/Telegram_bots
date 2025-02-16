@@ -1,25 +1,27 @@
 import telebot
+import logging
 from config import api_token
 
-
 # pip install pyTelegramBotAPI
-
 
 TOKEN = api_token
 
 bot = telebot.TeleBot(TOKEN)
 
 
-
-@bot.message_handler(commands=['help', 'start'])
+@bot.message_handler(commands=['start'])
 def handle_start(message):
+    logging.info("Обработчик команды start")
+    logging.info(message.chat.id)
+
     bot.send_message(message.chat.id, "Привет! Это твой бот!")
 
 
-@bot.message_handler(func=lambda message: True)
-def handle_all(message):
-    bot.send_message(message.chat.id, message.text)
-
 
 if __name__ == "__main__":
+
+    logging.basicConfig(level=logging.INFO)
+
+    logging.info("Начинаем работу бота...")
+
     bot.polling(non_stop=True)
